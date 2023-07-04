@@ -1,3 +1,7 @@
+# Make Edge Computing Node with Resolvable on 3G/4G Networks
+
+![Orange Pi 5 Plus](./orangepi5plus.jpg)
+
 ## Burn Armbian
 - Using `balenaEtcher` program (Run as administrator on Windows)
 - [option] If want to boot with NVMe, you must boot with SD Card first and run `armbian-config` to overide bootloader
@@ -81,3 +85,4 @@ iptables -t nat -A POSTROUTING -o eth2 -j MASQUERADE
 - edit `/etc/yggdrasil.conf`, add your peers (create your peer or use [Public Peers](https://publicpeers.neilalexander.dev/))
 - restart yggdrasil service `systemctl restart yggdrasil`
 - get peers status `yggdrasilctl getPeers`
+- see your ipv6 on `tun0` interfaces (in common)
