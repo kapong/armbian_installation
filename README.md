@@ -86,6 +86,7 @@ iptables -A FORWARD -i br0 -s 192.168.100.0/255.255.255.0 -j ACCEPT
 iptables -A FORWARD -i eth2 -d 192.168.100.0/255.255.255.0 -j ACCEPT
 iptables -t nat -A POSTROUTING -o eth2 -j MASQUERADE
 ```
+- install `iptables-persistent` to save iptables after reboot
 
 ## Yggdrasil, awesome IPv6 mesh network!
 - edit `/etc/yggdrasil.conf`, add your peers (create your peer or use [Public Peers](https://publicpeers.neilalexander.dev/))
