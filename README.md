@@ -5,34 +5,40 @@
 ## Burn Armbian
 - Using `balenaEtcher` program (Run as administrator on Windows)
 - [option] If want to boot with NVMe, you must boot with SD Card first and run `armbian-config` to overide bootloader
-- tested on `Orange Pi 5 Plus` and `Radxa Rock5B`
+- tested on [Orange Pi 5 Plus](https://redirect.armbian.com/orangepi5-plus/archive/) and [Radxa Rock5B](https://www.armbian.com/rock-5b/)
 
 ## First Boot
 - You need to connect with a monitor and a keyboard via HDMI (or USB-C with DP Support)
 - run `armbian-config` for update kernel and firmware
 - run `apt update && apt upgrade -y` for update sofwares
-- run `armbian-config` to install desired softwares (suggest: `docker` and `yggdrasil`)
+- run `armbian-config` `> Software > Softy` to install desired softwares (suggest: `docker` and `yggdrasil`)
 - edit `/boot/armbianEnv.txt` add `extraargs=net.ifnames=0` to change interfaces to common name
 - Ready to customized!
 
 ## Add Huawei Modem (Tested on E8372, 12d1:155e)
-- run `apt install usb-modeswitch usb-modeswitch-data`
-- edit `HuaweiAltModeGlobal=1` inside `/etc/usb_modeswitch.conf`
-<!-- - [no-need] add file `/etc/udev/rules.d/70-huawei_e8372.rules` with content
+- run `apt install -y usb-modeswitch usb-modeswitch-data comgt`
+<!-- - edit `/etc/usb_modeswitch.conf` content
+```
+HuaweiAltModeGlobal=1
+HuaweiNewMode=0
+NoDriverLoading=1
+``` -->
+- add file `/etc/udev/rules.d/70-huawei_e8372.rules` with content
 ```
 ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="12d1", ATTRS{idProduct}=="1f01", RUN+="/usr/sbin/usb_modeswitch -v 12d1 -p 1f01 -M '55534243123456780000000000000a11062000000000000100000000000000'"
 
 ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="12d1", ATTRS{idProduct}=="1f01", RUN+="/bin/bash -c 'modprobe option && echo 12d1 14db > /sys/bus/usb-serial/drivers/option1/new_id'"
-``` -->
+```
 
-- add file `/etc/usb_modeswitch.d/12d1:155e` with content
+<!-- - add file `/etc/usb_modeswitch.d/12d1:155e` with content
 ```
 TargetVendor=0x12d1
 TargetProduct=0x155e
 MessageContent="55534243123456780000000000000011063000000100010000000000000000"
 HuaweiNewMode=1
-```
+``` -->
 
+- reboot
 - run `dmesg` to see the system log, some line should be
 ```
 ... register 'cdc_ether' at usb-xhci-hcd.10.auto-1.4, CDC Ethernet Device
